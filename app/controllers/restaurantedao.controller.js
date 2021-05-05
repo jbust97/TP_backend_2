@@ -69,7 +69,6 @@ exports.update = (req,res) => {
     }).then(data => {
         res.send(data);
     }).catch(err => {
-        console.log("Error!!!!!! " + err)
         res.status(500).send({
             message: "Error al actualizar el restaurante con id: " + id
         })

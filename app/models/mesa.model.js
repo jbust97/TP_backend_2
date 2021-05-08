@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         piso: {
             type: Sequelize.BIGINT,
-            default: 1
+            defaultValue: 1
         },
         capacidad: {
             type: Sequelize.BIGINT,

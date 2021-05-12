@@ -1,6 +1,8 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 const Reservas = db.Reservas;
 const Op = db.Sequelize.Op;
+var moment = require('moment');
 
 exports.create = (req, res) => {
     // Validate request
@@ -49,6 +51,43 @@ exports.findOne = (req, res) => {
         });
     });    
 };
+
+exports.consulta = (req, res) => {
+    const rId = req.query.RestauranteId;
+    const f = moment.utc(req.query.fecha).format('YYYY-MM-DD');
+    const cId = req.query.ClienteId;
+
+    if (rId == null || f == null) res.status(500).send({message: "Error al obtener todas las reservas"});
+
+    if (cId == null){
+        Reservas.findAll({
+            where: {
+                RestauranteId: rId,
+                fecha: f,
+            }
+        }).then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: "Error al obtener las reservas"
+            });
+        });
+    }else{
+        Reservas.findAll({
+            where: {
+                RestauranteId: rId,
+                fecha: f,
+                ClienteId: cId
+            }
+        }).then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: "Error al obtener las reservas"
+            });
+        });
+    }
+}
 
 exports.findAll = (req,res) => {
     Reservas.findAll().then(data => {

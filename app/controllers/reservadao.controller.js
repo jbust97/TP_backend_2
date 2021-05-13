@@ -1,5 +1,8 @@
 const { sequelize } = require("../models");
 const db = require("../models");
+const Restaurantes = db.Restaurantes;
+const Clientes = db.Clientes;
+const Mesas = db.Mesas;
 const Reservas = db.Reservas;
 const Op = db.Sequelize.Op;
 var moment = require('moment');
@@ -64,12 +67,13 @@ exports.consulta = (req, res) => {
             where: {
                 RestauranteId: rId,
                 fecha: f,
-            }
+            },
+            include: [Restaurantes, Mesas, Clientes]
         }).then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: "Error al obtener las reservas"
+                message: "Error al obtener las reservas RF"
             });
         });
     }else{
@@ -78,12 +82,13 @@ exports.consulta = (req, res) => {
                 RestauranteId: rId,
                 fecha: f,
                 ClienteId: cId
-            }
+            },
+            include: [Restaurantes, Mesas, Clientes]
         }).then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: "Error al obtener las reservas"
+                message: "Error al obtener las reservas RFC"
             });
         });
     }

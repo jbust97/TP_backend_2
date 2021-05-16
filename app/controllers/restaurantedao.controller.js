@@ -1,6 +1,9 @@
 const db = require("../models");
 const Restaurantes = db.Restaurantes;
+const Mesas = db.Mesas;
+const Reservas = db.Reservas;
 const Op = db.Sequelize.Op;
+var moment = require('moment');
 
 exports.create = (req, res) => {
     // Validate request
@@ -86,4 +89,41 @@ exports.delete = (req,res) => {
     }).catch(err => {
         res.status(500).send("Error al eliminar el restaurante con id: " + id);
     })
+}
+
+exports.consultaHorarios = async (req, res) => {
+    const rId = req.params.id;
+    const f = moment.utc(req.query.fecha).format('YYYY-MM-DD');
+    const cap = req.query.capacidad;
+    const mesas = await Mesas.findAll({
+        where: {
+            RestauranteId: rId,
+            capacidad: {[Op.gte]: cap},
+        }
+    });
+    for(let i=0; i<mesas.length; i++){
+        mesas[i].dataValues.disponibilidad = {12:true,13:true,14:true,15:true, 
+                                              16:true,17:true,18:true,19:true,
+                                              20:true,21:true,22:true};
+        const reservas = await Reservas.findAll({
+            where: {
+                MesaId: mesas[i].dataValues.id
+            }
+        });
+        //console.log(reservas);
+        for(let j=0; j<reservas.length; j++){
+            let hIni = reservas[j].dataValues.horaInicio;
+            let hFin = reservas[j].dataValues.horaFin;
+            for(let k=0; k<(hFin-hIni); k++){
+                let horaActual = parseInt(hIni)+parseInt(k);
+                mesas[i].dataValues.disponibilidad[horaActual] = false;
+            }
+        }
+    }
+    //console.log(mesas[0].dataValues.disponibilidad);
+    try{
+        res.send(mesas);
+    }catch(e){
+        res.status(404).send("No se encuentra");
+    }
 }

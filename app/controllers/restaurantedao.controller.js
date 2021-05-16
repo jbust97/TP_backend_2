@@ -107,7 +107,8 @@ exports.consultaHorarios = async (req, res) => {
                                               20:true,21:true,22:true};
         const reservas = await Reservas.findAll({
             where: {
-                MesaId: mesas[i].dataValues.id
+                MesaId: mesas[i].dataValues.id,
+                fecha: f
             }
         });
         //console.log(reservas);

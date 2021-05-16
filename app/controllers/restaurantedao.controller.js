@@ -1,5 +1,8 @@
+//const { Reservas } = require("../models");
 const db = require("../models");
 const Restaurantes = db.Restaurantes;
+const Mesas = db.Mesas;
+const Reservas = db.Reservas;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -86,4 +89,32 @@ exports.delete = (req,res) => {
     }).catch(err => {
         res.status(500).send("Error al eliminar el restaurante con id: " + id);
     })
+}
+
+exports.mesas = (req,res) => {
+    const inicio = req.query.inicio;
+    const fin = req.query.fin;
+    const capacidad = req.query.capacidad;
+    const fecha = moment.utc(req.query.fecha).format('YYYY-MM-DD');;
+    const restauranteId = req.params.id;
+    const reservas = Reservas.findAll({
+        where: {
+            RestauranteId: restauranteId,
+            fecha: fecha,
+            horaInicio: {
+
+            }
+        }
+    })
+    
+    const mesasReservadas = new Set();
+    reservas.forEach((reserva) => mesasReservadas.add(reserva.MesaId));
+    
+    Mesas.findAll({
+        where: {
+            capacidad: {
+                [Op.gte]: capacidad
+            },   
+        }
+    }).then(data => data.filter((mesa) => !(mesasReservadas.has(mesa.id))));
 }

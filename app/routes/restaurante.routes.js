@@ -6,5 +6,6 @@ module.exports = app => {
     router.get("/:id", restaurante.findOne);
     router.put("/:id",restaurante.update);
     router.delete("/:id",restaurante.delete);
+    router.get("/:id/horario",restaurante.consultaHorarios);
     app.use('/api/restaurante', router);
 };

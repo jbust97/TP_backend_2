@@ -47,6 +47,30 @@ exports.findOne = (req, res) => {
     });    
 };
 
+exports.findbyCedula = (req,res) => {
+    const cedula = req.query.cedula
+    Clientes.findOne(
+        {
+            where: {
+                cedula: cedula
+            } 
+        }
+    ).then(data => {     
+        if (data){
+            res.send(data);
+        }
+        else{
+            res.status(404).send("Not found");
+        }
+    }).catch(err => 
+        {
+            console.log(err)
+            res.status(500).send({ 
+                message: "Error al obtener cliente con cedula=" + cedula
+            });
+        }
+    );
+}
 exports.findAll = (req,res) => {
     Clientes.findAll().then(data => {
         res.send(data);

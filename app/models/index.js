@@ -23,6 +23,8 @@ db.Restaurantes = require("./restaurante.model.js")(sequelize, Sequelize);
 db.Clientes = require("./cliente.model.js")(sequelize, Sequelize);
 db.Mesas = require("./mesa.model.js")(sequelize, Sequelize);
 db.Reservas = require("./reserva.model.js")(sequelize, Sequelize);
+db.Categorias = require("./categoria.model.js")(sequelize, Sequelize);
+db.Productos = require("./producto.model.js")(sequelize, Sequelize);
 
 db.Restaurantes.hasMany(db.Mesas);
 db.Mesas.belongsTo(db.Restaurantes);
@@ -32,4 +34,7 @@ db.Mesas.hasMany(db.Reservas);
 db.Reservas.belongsTo(db.Mesas);
 db.Clientes.hasMany(db.Reservas);
 db.Reservas.belongsTo(db.Clientes);
+db.Categorias.hasMany(db.Productos);
+db.Productos.belongsTo(db.Categorias);
+
 module.exports = db;

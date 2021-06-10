@@ -19,6 +19,10 @@ module.exports = (sequelize, Sequelize) => {
         capacidad: {
             type: Sequelize.BIGINT,
             allowNull: false
+        },
+        ocupado: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         },    
         id: {
             type: Sequelize.BIGINT,

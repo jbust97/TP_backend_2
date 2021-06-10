@@ -91,6 +91,19 @@ exports.delete = (req,res) => {
     })
 }
 
+exports.mesas = async (req,res) => {
+    const rId = req.params.id;
+    const mesas = await Mesas.findAll({
+        where: {
+            RestauranteId: rId,
+        }
+    });
+    try{
+        res.send(mesas);
+    }catch(e){
+        res.status(404).send("No se encuentra");
+    }
+}
 exports.consultaHorarios = async (req, res) => {
     const rId = req.params.id;
     const f = moment.utc(req.query.fecha).format('YYYY-MM-DD');

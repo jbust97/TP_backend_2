@@ -15,7 +15,8 @@ exports.create = (req, res) => {
 
     const producto = {
         nombre: req.body.nombre,
-        CategoriaId: req.body.CategoriaId,
+        CategoriumId: req.body.CategoriumId,
+        precio: req.body.precio
     };
 
     // Guardamos a la base de datos
@@ -60,7 +61,8 @@ exports.update = (req,res) => {
     const id = req.params.id
     const producto = {
         nombre: req.body.nombre,
-        CategoriaId: req.body.CategoriaId,
+        CategoriumId: req.body.CategoriumId,
+        precio: req.body.precio
     }
     Productos.update(producto, {
         where: {

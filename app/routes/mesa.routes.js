@@ -6,5 +6,6 @@ module.exports = app => {
     router.get("/:id", mesa.findOne);
     router.put("/:id",mesa.update);
     router.delete("/:id",mesa.delete);
-    app.use('/api/mesa', router);
+    router.get("/:id/consumo",mesa.consumo);
+    app.use('/api/mesa', router);       
 };

@@ -15,6 +15,7 @@ exports.create = (req, res) => {
 
     const categoria = {
         nombre: req.body.nombre,
+        
     };
 
     // Guardamos a la base de datos
@@ -59,6 +60,7 @@ exports.update = (req,res) => {
     const id = req.params.id
     const categoria = {
         nombre: req.body.nombre,
+        
     }
     Categorias.update(categoria, {
         where: {

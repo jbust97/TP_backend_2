@@ -1,3 +1,4 @@
+var moment = require('moment');
 module.exports = (sequelize, Sequelize) => {
     const GestionCabecera = sequelize.define("GestionCabecera", { 
         cerrado: {
@@ -13,14 +14,14 @@ module.exports = (sequelize, Sequelize) => {
         creacion: {
             type: Sequelize.DATEONLY,
             get: function() {
-              return moment.utc(this.getDataValue('fecha')).format('YYYY-MM-DD');
+              return moment.utc(this.getDataValue('creacion')).format('YYYY-MM-DD');
             },
             allowNull: false
         },
         cierre: {
             type: Sequelize.DATEONLY,
             get: function() {
-              return moment.utc(this.getDataValue('fecha')).format('YYYY-MM-DD');
+              return moment.utc(this.getDataValue('cierre')).format('YYYY-MM-DD');
             },
         },
         id: {

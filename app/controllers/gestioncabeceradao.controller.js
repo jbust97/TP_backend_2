@@ -20,7 +20,10 @@ exports.create = (req, res) => {
         total: req.body.total,
         creacion: req.body.creacion,
         cierre: req.body.cierre,
+        MesaId: req.body.MesaId
+        
     };
+
 
     // Guardamos a la base de datos
     
@@ -67,6 +70,8 @@ exports.update = (req,res) => {
         total: req.body.total,
         creacion: req.body.creacion,
         cierre: req.body.cierre,
+        MesaId: req.body.MesaId,
+        ClienteId: req.body.ClienteId
     }
     GestionesCabecera.update(cabecera, {
         where: {

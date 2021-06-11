@@ -93,7 +93,7 @@ exports.delete = (req,res) => {
 }
 
 exports.consulta = (req, res) => {
-    const gcId = req.query.GestionCabeceraId;
+    const gcId = req.query.cabeceraId;
 
     if (gcId == null) res.status(500).send({message: "Error al obtener todos los detalles"});
 

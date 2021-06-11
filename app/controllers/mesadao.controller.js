@@ -1,5 +1,6 @@
 const db = require("../models");
 const Mesas = db.Mesas;
+const Consumo = db.GestionesCabecera;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -93,5 +94,19 @@ exports.delete = (req,res) => {
         res.status(204).send();
     }).catch(err => {
         res.status(500).send("Error al eliminar el mesa con id: " + id);
+    })
+}
+
+exports.consumo = (req,res) => {
+    const id = req.params.id;
+    Consumo.findOne({
+        where: {
+            MesaId: id,
+            cerrado: false,
+        }
+    }).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send("Error al traer el consumo abierto de la mesa. Es posible que no exista");
     })
 }

@@ -1,7 +1,8 @@
-const { sequelize } = require("../models");
+const { sequelize, Productos } = require("../models");
 const db = require("../models");
 const GestionesCabecera = db.GestionesCabecera;
 const GestionesDetalle = db.GestionesDetalle;
+const ProductosDB = db.Productos
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -92,20 +93,23 @@ exports.delete = (req,res) => {
     })
 }
 
-exports.consulta = (req, res) => {
+exports.consulta = async (req, res) => {
     const gcId = req.query.cabeceraId;
 
     if (gcId == null) res.status(500).send({message: "Error al obtener todos los detalles"});
 
-    GestionesDetalle.findAll({
+    const detalles = await GestionesDetalle.findAll({
         where: {
             GestionCabeceraId: gcId,
         },
-    }).then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: "Error al obtener los detalles"
-        });
-    });
+    })
+    for (let i = 0; i < detalles.length;i++ ){
+        producto = await ProductosDB.findByPk(detalles[i].dataValues.ProductoId);
+        detalles[i].dataValues.producto = producto;
+    }  
+    try{
+        res.send(detalles);
+    }catch(e){
+        res.status(404).send("No se pueden obtener detalles");
+    }
 }

@@ -145,13 +145,13 @@ exports.ticket = async (req,res) => {
                         let result = acc + "<br/>";
                         result += "<h6>" + cur.dataValues.producto.dataValues.nombre + "</h6>";
                         result += "Cantidad: " + cur.dataValues.cantidad + "<br/>";
-                        result += "Costo Unitario: " + cur.dataValues.producto.dataValues.precio + "<br/>";
-                        result += "Costo total: " + cur.dataValues.producto.dataValues.precio * cur.dataValues.cantidad + "<br/>";
+                        result += "Costo Unitario: Gs. " + cur.dataValues.producto.dataValues.precio + "<br/>";
+                        result += "Costo total: Gs. " + cur.dataValues.producto.dataValues.precio * cur.dataValues.cantidad + "<br/>";
                         result += "<hr style=\"border: 1px dashed black;\" />"
                         return result;
                     },"")
                 }
-                <span>Total: ${consumo.total}</span> 
+                <span>Total: Gs. ${consumo.total}</span> 
             </div>
          `
         pdf.create(html,{"width":"8in"}).toStream((err,stream)=>{
